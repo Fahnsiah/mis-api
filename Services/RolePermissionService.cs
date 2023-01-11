@@ -28,7 +28,7 @@ namespace MIS_API.Services
 
         public IEnumerable<ModuleResponse> GetModules()
         {
-            var data = _context.Modules.OrderBy(x=>x.Id);
+            var data = _context.Modules.OrderBy(x => x.Id);
             return _mapper.Map<IList<ModuleResponse>>(data);
         }
 
@@ -48,11 +48,29 @@ namespace MIS_API.Services
             try
             {
                 var data = _mapper.Map<RolePermission>(model);
-                data.CreatedOn = DateTime.UtcNow;
+                var role = _context.RolePermissions.Where(x => x.RoleId == data.RoleId &&
+                                                    x.ModuleId == data.ModuleId &&
+                                                    x.TaskId == data.TaskId &&
+                                                    x.ActionId == data.ActionId).FirstOrDefault();
 
-                // save account
-                _context.RolePermissions.Add(data);
-                _context.SaveChanges();
+                if (role != null)
+                {
+                    data.Id = role.Id;
+
+                    role.IsDeleted = false;
+                    role.UpdatedOn = DateTime.Now;
+
+                    _context.RolePermissions.Update(role);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    data.CreatedOn = DateTime.UtcNow;
+
+                    // save account
+                    _context.RolePermissions.Add(data);
+                    _context.SaveChanges();
+                }
 
                 return _mapper.Map<RolePermissionResponse>(data);
             }
@@ -78,13 +96,13 @@ namespace MIS_API.Services
 
         public IEnumerable<RolePermissionResponse> GetAll()
         {
-            var data = _context.RolePermissions;
+            var data = _context.RolePermissions.Where(x => x.IsDeleted == false);
             return _mapper.Map<IList<RolePermissionResponse>>(data);
         }
 
         public IEnumerable<RolePermissionResponse> GetAllByRole(int id)
         {
-            var data = _context.RolePermissions.Where(x=>x.RoleId == id);
+            var data = _context.RolePermissions.Where(x => x.RoleId == id && x.IsDeleted==false);
             return _mapper.Map<IList<RolePermissionResponse>>(data);
         }
 
@@ -110,12 +128,12 @@ namespace MIS_API.Services
         {
             try
             {
-                var moduleList = _context.Modules.ToList();               
+                var moduleList = _context.Modules.ToList();
                 var actionList = _context.Actions.ToList();
 
                 foreach (var module in moduleList)
                 {
-                    var taskList = _context.Tasks.Where(x=>x.ModuleId==module.Id).ToList();
+                    var taskList = _context.Tasks.Where(x => x.ModuleId == module.Id).ToList();
                     if (taskList.Count() > 0)
                     {
                         foreach (var task in taskList)
@@ -159,9 +177,9 @@ namespace MIS_API.Services
                             }
                         }
                     }
-                    
+
                 }
-                
+
                 _context.SaveChanges();
             }
             catch (Exception ex)
@@ -176,6 +194,6 @@ namespace MIS_API.Services
             return data;
         }
 
-       
+
     }
 }

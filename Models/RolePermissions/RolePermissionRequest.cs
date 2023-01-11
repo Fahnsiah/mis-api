@@ -10,8 +10,7 @@ namespace MIS_API.Models.RolePermissions
     {
         [Required]
         public string ModuleId { get; set; }
-
-        [Required]
+                
         public string TaskId { get; set; }
 
         [Required]
