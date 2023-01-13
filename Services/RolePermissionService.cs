@@ -194,6 +194,64 @@ namespace MIS_API.Services
             return data;
         }
 
+        public void AddRemoveAll(IEnumerable<RoleAddRemoveRequest> model)
+        {
+            try
+            {
+                foreach (var item in model)
+                {
+                    var data = _context.RolePermissions.Where(x => x.RoleId == item.RoleId &&
+                                                                    x.ModuleId == item.ModuleId &&
+                                                                    x.TaskId == item.TaskId &&
+                                                                    x.ActionId == item.ActionId).FirstOrDefault();
+                    if (data == null)
+                    {
+                        if (item.Add)
+                        {
+                            var newData = new RolePermission()
+                            {
+                                RoleId = item.RoleId,
+                                ModuleId = item.ModuleId,
+                                TaskId = item.TaskId,
+                                ActionId = item.ActionId,
+                                UserLogId = item.UserLogId,
+                                CreatedOn = DateTime.Now
+                            };
+                            _context.RolePermissions.Add(newData);
+                            _context.SaveChanges();
+                        }                        
+                    }
+                    else
+                    {
+                        if (!item.Add)
+                        {
+                            var updateData = _context.RolePermissions.Find(data.Id);
+                            updateData.IsDeleted = true;
+                            updateData.UpdatedOn = DateTime.UtcNow;
+                            _context.RolePermissions.Update(updateData);
+                            _context.SaveChanges();
+                        }
+                        else
+                        {
+                            if (data.IsDeleted)
+                            {
 
+                                var updateData = _context.RolePermissions.Find(data.Id);
+                                updateData.IsDeleted = false;
+                                updateData.UpdatedOn = DateTime.UtcNow;
+                                _context.RolePermissions.Update(updateData);
+                                _context.SaveChanges();
+                            }
+                        }
+                    }
+
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+            }
+        }
     }
 }

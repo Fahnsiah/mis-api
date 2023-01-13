@@ -28,9 +28,6 @@ namespace MIS_API.Helpers
                         if (prop == null) return false;
                         if (prop.GetType() == typeof(string) && string.IsNullOrEmpty((string)prop)) return false;
 
-                        // ignore null role
-                        if (x.DestinationMember.Name == "RoleEnum" && src.RoleEnum == null) return false;
-
                         return true;
                     }
                 ));
@@ -44,6 +41,8 @@ namespace MIS_API.Helpers
             CreateMap<Module, ModuleResponse>();
             CreateMap<Task, TaskResponse>();
             CreateMap<Action, ActionResponse>();
+
+            CreateMap<RoleAddRemoveRequest, RolePermission>();            
 
         }
     }

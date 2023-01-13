@@ -1,3 +1,4 @@
+using MIS_API.Entities.Roles;
 using System;
 
 namespace MIS_API.Models.Accounts
@@ -10,7 +11,8 @@ namespace MIS_API.Models.Accounts
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public string RoleId { get; set; }
+        public int RoleId { get; set; }
+        public string Role { get; set; }
 
         //public DateTime Created { get; set; }
         //public DateTime? Updated { get; set; }

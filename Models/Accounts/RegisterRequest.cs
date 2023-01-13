@@ -4,7 +4,9 @@ namespace MIS_API.Models.Accounts
 {
     public class RegisterRequest
     {
-        
+        [Required]
+        public int RoleId { get; set; }
+
         [Required]
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
@@ -21,6 +23,7 @@ namespace MIS_API.Models.Accounts
         public string Password { get; set; }
 
         [Required]
+        [MinLength(6)]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
 

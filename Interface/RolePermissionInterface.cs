@@ -5,6 +5,7 @@ namespace MIS_API.Interface
 {
     public interface IRolePermissionInterface
     {
+        void AddRemoveAll(IEnumerable<RoleAddRemoveRequest>  model);
         IEnumerable<ModuleResponse> GetModules();
         IEnumerable<TaskResponse> GetTasks();
         IEnumerable<ActionResponse> GetActions();

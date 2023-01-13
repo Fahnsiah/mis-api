@@ -7,19 +7,13 @@ namespace MIS_API.Models.Accounts
     {
         private string _password;
         private string _confirmPassword;
-        private string _role;
         private string _email;
-        
-        public string Title { get; set; }
+       
         public string FirstName { get; set; }
+        public string MiddleName { get; set; }
         public string LastName { get; set; }
 
-        [EnumDataType(typeof(RoleEnum))]
-        public string RoleEnum
-        {
-            get => _role;
-            set => _role = replaceEmptyWithNull(value);
-        }
+        public int RoleId { get; set; }
 
         [EmailAddress]
         public string Email

@@ -12,6 +12,7 @@ using System.Text;
 using MIS_API.Entities;
 using MIS_API.Helpers;
 using MIS_API.Models.Accounts;
+using MIS_API.Entities.Roles;
 
 namespace MIS_API.Interface
 {

@@ -1,0 +1,30 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace MIS_API.Models.RolePermissions
+{
+    public class RoleAddRemoveRequest
+    {
+        [Required]
+        public string ModuleId { get; set; }
+                
+        public string TaskId { get; set; }
+
+        [Required]
+        public string ActionId { get; set; }
+
+        [Required]
+        public int RoleId { get; set; }
+
+        [Required]
+        public bool Add { get; set; }
+
+        [Required]
+        public long UserLogId { get; set; }
+        public long? UpdateLogId { get; set; }
+
+    }
+}

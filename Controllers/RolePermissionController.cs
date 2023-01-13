@@ -28,6 +28,13 @@ namespace MIS_API.Controllers
             _mapper = mapper;
         }
 
+        [HttpPost("add-remove")]
+        public void AddRemoveAll(IEnumerable<RoleAddRemoveRequest> model)
+        {
+            _rolePermissionService.AddRemoveAll(model);
+            //return Ok(data);
+        }
+
         [HttpGet("actions")]
         public ActionResult<IEnumerable<ModuleResponse>> GetActions()
         {

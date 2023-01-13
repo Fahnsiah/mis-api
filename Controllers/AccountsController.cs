@@ -28,12 +28,6 @@ namespace MIS_API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("users")]
-        public ActionResult<IEnumerable<AccountResponse>> Get()
-        {
-            var data = _accountService.GetAll();
-            return Ok(data);
-        }
 
         [HttpPost("authenticate")]
         public ActionResult<AuthenticateResponse> Authenticate(AuthenticateRequest model)
@@ -192,5 +186,27 @@ namespace MIS_API.Controllers
             else
                 return HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
         }
+        
+        [HttpGet("users")]
+        public ActionResult<IEnumerable<AccountResponse>> Get()
+        {
+            var data = _accountService.GetAll();
+
+            return Ok(data);
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult<AccountResponse> Put(int id, [FromBody] UpdateRequest model)
+        {
+            var data = _accountService.Update(id, model);
+            return Ok(data);
+        }
+
+        //[HttpPut("{id}")]
+        //public ActionResult<RoleResponse> Put(int id, [FromBody] RoleRequest model)
+        //{
+        //    var data = _roleService.Update(id, model);
+        //    return Ok(data);
+        //}
     }
 }

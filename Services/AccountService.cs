@@ -13,6 +13,7 @@ using MIS_API.Entities;
 using MIS_API.Helpers;
 using MIS_API.Models.Accounts;
 using MIS_API.Interface;
+using MIS_API.Entities.Roles;
 
 namespace MIS_API.Services
 {
@@ -191,8 +192,28 @@ namespace MIS_API.Services
 
         public IEnumerable<AccountResponse> GetAll()
         {
-            var accounts = _context.Accounts;
-            return _mapper.Map<IList<AccountResponse>>(accounts);
+            //var accounts = _context.Accounts;
+            //return _mapper.Map<IList<AccountResponse>>(accounts);
+
+            var data =
+               from user in _context.Accounts
+               join role in _context.Roles on user.RoleId equals role.Id
+               //where user.Id
+               select new AccountResponse { 
+                   Id = user.Id,
+                   RoleId = user.RoleId,
+                   Role = role.Name,
+                   FirstName = user.FirstName,
+                   MiddleName = user.MiddleName,
+                   LastName = user.LastName,
+                   Email = user.Email,
+               };
+            return data;
+            //var data =
+            //   from user in database.Posts
+            //   join meta in database.Post_Metas on post.ID equals meta.Post_ID
+            //   where post.ID == id
+            //   select new { Post = post, Meta = meta };
         }
 
         public AccountResponse GetById(int id)
