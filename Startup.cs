@@ -7,12 +7,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using MIS_API.Helpers;
-using MIS_API.Interface;
+using MISAPI.DataModel.DataAccess;
 using MIS_API.Middleware;
-using MIS_API.Services;
 using System;
 using System.Linq;
+using MISAPI.DAL.Helpers;
+using MISAPI.DAL.Interfaces;
+using MISAPI.DAL.Services;
 
 namespace MIS_API
 {

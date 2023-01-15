@@ -2,9 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MIS_API.Entities;
-using MIS_API.Interface;
-using MIS_API.Models.Accounts;
+using MISAPI.DAL.Interfaces;
+using MISAPI.DataModel.ViewModels.Accounts;
 using System;
 using System.Collections.Generic;
 
@@ -202,11 +201,5 @@ namespace MIS_API.Controllers
             return Ok(data);
         }
 
-        //[HttpPut("{id}")]
-        //public ActionResult<RoleResponse> Put(int id, [FromBody] RoleRequest model)
-        //{
-        //    var data = _roleService.Update(id, model);
-        //    return Ok(data);
-        //}
     }
 }

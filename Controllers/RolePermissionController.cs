@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using MIS_API.Interface;
-using MIS_API.Models.RolePermissions;
-using MIS_API.Models.Roles;
+using MISAPI.DAL.Interfaces;
+using MISAPI.DataModel.ViewModels.RolePermissions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

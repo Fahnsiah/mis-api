@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MIS_API.Entities;
+using MISAPI.DataModel.Models.Accounts;
 
 namespace MIS_API.Controllers
 {
