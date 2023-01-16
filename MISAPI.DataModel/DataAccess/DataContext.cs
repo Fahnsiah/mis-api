@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using MISAPI.DataModel.Models;
+using MISAPI.DataModel.Models.Councils;
 
 namespace MISAPI.DataModel.DataAccess
 {
@@ -20,7 +22,10 @@ namespace MISAPI.DataModel.DataAccess
             modelBuilder.Entity<Account>()
                 .Property(x => x.RoleId);
 
-            //seed the required tables
+            //seed the required tables            
+            this.SeedCouncilType(modelBuilder);
+            this.SeedCountries(modelBuilder);
+            this.SeedCouncils(modelBuilder);
             this.SeedRoles(modelBuilder);
             this.SeedUsers(modelBuilder);
         }
@@ -32,6 +37,7 @@ namespace MISAPI.DataModel.DataAccess
         public DbSet<MISAPI.DataModel.Models.Roles.Action> Actions { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
+        public DbSet<Council> Councils { get; set; }
 
         private readonly IConfiguration Configuration;
 
@@ -62,7 +68,50 @@ namespace MISAPI.DataModel.DataAccess
             builder.Entity<Role>().HasData(role);
 
         }
+        private void SeedCouncilType(ModelBuilder builder)
+        {
+            List<CouncilType> councilList = new List<CouncilType>();
 
+            councilList.AddRange(new List<CouncilType>
+            {
+                 new CouncilType {Id = 1,  Name = "COUNCIL",   Description = "Councils of the order" },
+                 new CouncilType {Id = 2,  Name = "COURT",   Description = "Courts of the order" },
+
+             });
+
+            builder.Entity<CouncilType>().HasData(councilList);
+
+        }
+        private void SeedCountries(ModelBuilder builder)
+        {
+            var council = new Country
+            {
+                Id = 1,
+                Name = "Ghana",
+                Nationality = "Ghanian",
+                Currency = "Cedis",
+                CurrencySymbol = "C"
+
+            };
+            builder.Entity<Country>().HasData(council);
+
+        }
+        private void SeedCouncils(ModelBuilder builder)
+        {
+            var council = new Council
+            {
+               Id=1,
+               No = 1,
+               CouncilTypeId = 1,
+               CountryId = 1,
+               Address = "SecondI, Ghana",
+               ConsecreatedOn = Convert.ToDateTime("November 18, 1926"),
+               CreatedOn = DateTime.Now
+
+            };
+            builder.Entity<Council>().HasData(council);
+
+        }
         private void SeedUsers(ModelBuilder builder)
         {
             var user = new Account
@@ -73,8 +122,10 @@ namespace MISAPI.DataModel.DataAccess
                 LastName = "Knight",
                 Email = "info@mis.org",
                 RoleId = 1,
-                Created = System.DateTime.Now,
+                CouncilId = 1,
+                CreatedOn = System.DateTime.Now,
                 Verified = System.DateTime.Now,
+                AcceptTerms = true,
 
             };
            

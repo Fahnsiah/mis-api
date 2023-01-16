@@ -4,11 +4,10 @@ namespace MISAPI.DataModel.ViewModels.Accounts
 {
     public class AuthenticateRequest
     {
-        [Required]
-        [EmailAddress]
+        [Required, EmailAddress, MaxLength(150)]
         public string Email { get; set; }
 
-        [Required]
+        [Required, MaxLength(150)]
         public string Password { get; set; }
     }
 }

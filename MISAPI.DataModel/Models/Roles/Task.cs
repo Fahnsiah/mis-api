@@ -7,18 +7,19 @@ using System.Threading.Tasks;
 
 namespace MISAPI.DataModel.Models.Roles
 {
-    public class Task : BaseModel
+    public class Task 
     {
-        [StringLength(25)]
+        [MaxLength(25)]
         public string Id { get; set; }
 
-        [Required]
+        [Required, MaxLength(50)]
         public string Name { get; set; }
 
         [Required]
         public DateTime CreatedOn { get; set; }
 
         //foriegn key relationship
+        [Required, MaxLength(25)]
         public string ModuleId { get; set; }
 
         [ForeignKey("ModuleId")]

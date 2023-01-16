@@ -8,12 +8,13 @@ namespace MISAPI.DataModel.ViewModels.RolePermissions
 {
     public class RolePermissionRequest
     {
-        [Required]
+        [Required, MaxLength(25)]
         public string ModuleId { get; set; }
                 
+        [MaxLength(25)]
         public string TaskId { get; set; }
 
-        [Required]
+        [Required, MaxLength(25)]
         public string ActionId { get; set; }
 
         [Required]

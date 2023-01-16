@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MISAPI.DataModel.Models.Accounts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,16 +15,13 @@ namespace MISAPI.DataModel.Models.Roles
         public int Id { get; set; }
 
         
-        [Required, StringLength(50)]
+        [Required, MaxLength(50)]
         public string Name { get; set; }
 
 
-        [StringLength(250)]
+        [MaxLength(250)]
         public string Description { get; set; }
 
-        [Required]
-        public DateTime CreatedOn { get; set; }
-        public DateTime? UpdatedOn { get; set; }
 
         [DefaultValue(true)]
         public bool Enabled { get; set; }
@@ -32,10 +30,6 @@ namespace MISAPI.DataModel.Models.Roles
         public bool IsDeleted { get; set; }
 
 
-        //foreign key relationship       
-        public long UserLogId { get; set; }
-        public long? UpdateLogId { get; set; }
-
-        public virtual ICollection<Role> Roles { get; set; }
+        public virtual IEnumerable<Account> Accounts { get; set; }
     }
 }

@@ -64,7 +64,7 @@ namespace MISAPI.DAL.Services
 
         public IEnumerable<RoleResponse> GetAll()
         {
-            var data = _context.Roles.Where(x=>x.IsDeleted == false);
+            var data = _context.Roles.Where(x=>x.IsDeleted == false);            
             return _mapper.Map<IList<RoleResponse>>(data);
         }
 
@@ -88,7 +88,7 @@ namespace MISAPI.DAL.Services
         }
         private Role getData(int id)
         {
-            var data = _context.Roles.Find(id);
+            var data = _context.Roles.Find(id);            
             if (data == null) throw new KeyNotFoundException("No data found");
             return data;
         }

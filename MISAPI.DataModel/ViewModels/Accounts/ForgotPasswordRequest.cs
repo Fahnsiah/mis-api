@@ -4,8 +4,7 @@ namespace MISAPI.DataModel.ViewModels.Accounts
 {
     public class ForgotPasswordRequest
     {
-        [Required]
-        [EmailAddress]
+        [Required, EmailAddress, MaxLength(150)]
         public string Email { get; set; }
     }
 }

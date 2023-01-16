@@ -8,30 +8,25 @@ using System.Threading.Tasks;
 
 namespace MISAPI.DataModel.Models.Roles
 {
-    public class RolePermission
+    public class RolePermission : BaseModel
     {
+        [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required, MaxLength(25)]
         public string ModuleId { get; set; }
-       
+
+        [MaxLength(25)]
         public string TaskId { get; set; }
 
-        [Required]
+        [Required, MaxLength(25)]
         public string ActionId { get; set; }
-
-        [Required]
-        public DateTime CreatedOn { get; set; }
-        public DateTime? UpdatedOn { get; set; }
-
 
         [DefaultValue(true)]
         public bool IsDeleted { get; set; }
 
         //foreign keys relationship
         public int RoleId { get; set; }
-        public long UserLogId { get; set; }       
-        public long? UpdateLogId { get; set; }
 
 
         [ForeignKey("RoleId")]

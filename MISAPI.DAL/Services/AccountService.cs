@@ -115,7 +115,7 @@ namespace MISAPI.DAL.Services
             // first registered account is an admin
             var isFirstAccount = _context.Accounts.Count() == 0;
             //account.RoleEnum = isFirstAccount ? RoleEnum.Admin : RoleEnum.User;
-            account.Created = DateTime.UtcNow;
+            account.CreatedOn = DateTime.UtcNow;
             account.Verified = DateTime.UtcNow;//added by Will to advoid verification
             account.VerificationToken = randomTokenString();
 
@@ -230,7 +230,7 @@ namespace MISAPI.DAL.Services
 
             // map model to new account object
             var account = _mapper.Map<Account>(model);
-            account.Created = DateTime.UtcNow;
+            account.CreatedOn = DateTime.UtcNow;
             account.Verified = DateTime.UtcNow;
 
             // hash password
@@ -257,7 +257,7 @@ namespace MISAPI.DAL.Services
 
             // copy model to account and save
             _mapper.Map(model, account);
-            account.Updated = DateTime.UtcNow;
+            account.CreatedOn = DateTime.UtcNow;
             _context.Accounts.Update(account);
             _context.SaveChanges();
 

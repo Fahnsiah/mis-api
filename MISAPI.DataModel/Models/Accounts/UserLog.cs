@@ -17,11 +17,16 @@ namespace MISAPI.DataModel.Models.Accounts
         [Required]
         public int ActionId { get; set; }
 
-        [Required]
+        [Required, MaxLength(50)]
         public string ActionOn { get; set; }
 
         [Required]
         public DateTime ActionDate { get; set; }
+
+
+
+        [ForeignKey("ActionId")]
+        public virtual Action Role { get; set; }
 
     }
 }

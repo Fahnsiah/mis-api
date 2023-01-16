@@ -5,31 +5,33 @@ namespace MISAPI.DataModel.ViewModels.Accounts
 {
     public class CreateRequest
     {
-        [Required]
-        public string Title { get; set; }
-
-        [Required]
+      
+        [Required, MaxLength(50)]
         public string FirstName { get; set; }
 
-        [Required]
+        [MaxLength(50)]
+        public string MiddleName { get; set; }
+
+        [Required, MaxLength(50)]
         public string LastName { get; set; }
 
         [Required]
         public int RoleId { get; set; }
-        //[Required]
-        //[EnumDataType(typeof(RoleEnum))]
-        //public string RoleEnum { get; set; }
 
         [Required]
-        [EmailAddress]
+        public int CouncilId { get; set; }
+
+
+        [Required, EmailAddress, MaxLength(150)]
         public string Email { get; set; }
 
-        [Required]
-        [MinLength(6)]
+        [Required, MinLength(6), MaxLength(150)]
         public string Password { get; set; }
 
-        [Required]
-        [Compare("Password")]
+        [Required, Compare("Password"), MaxLength(50)]
         public string ConfirmPassword { get; set; }
+
+        [Range(typeof(bool), "true", "true")]
+        public bool AcceptTerms { get; set; }
     }
 }

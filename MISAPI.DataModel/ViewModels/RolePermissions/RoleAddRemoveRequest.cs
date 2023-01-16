@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace MISAPI.DataModel.ViewModels.RolePermissions
 {
-    public class RoleAddRemoveRequest: BaseViewModel
+    public class RoleAddRemoveRequest : BaseViewModel
     {
-        [Required]
+        [Required, MaxLength(25)]
         public string ModuleId { get; set; }
-                
+
+        [MaxLength(25)]
         public string TaskId { get; set; }
 
-        [Required]
+        [Required, MaxLength(25)]
         public string ActionId { get; set; }
 
         [Required]

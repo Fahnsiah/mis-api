@@ -8,22 +8,24 @@ namespace MISAPI.DataModel.ViewModels.Accounts
         public int RoleId { get; set; }
 
         [Required]
+        public int CouncilId { get; set; }
+
+        [Required, MaxLength(50)]
         public string FirstName { get; set; }
+        
+        [MaxLength(50)]
         public string MiddleName { get; set; }
 
-        [Required]
+        [Required, MaxLength(50)]
         public string LastName { get; set; }
 
-        [Required]
-        [EmailAddress]
+        [Required, EmailAddress, MaxLength(150)]
         public string Email { get; set; }
 
-        [Required]
-        [MinLength(6)]
+        [Required, MinLength(6), MaxLength(150)]
         public string Password { get; set; }
 
-        [Required]
-        [MinLength(6)]
+        [Required, MinLength(6), MaxLength(150)]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
 

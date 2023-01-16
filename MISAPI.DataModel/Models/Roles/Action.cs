@@ -8,17 +8,13 @@ namespace MISAPI.DataModel.Models.Roles
 {
     public class Action: BaseModel
     {
-        [StringLength(25)]
+        [MaxLength(25)]
         public string Id { get; set; }
 
-        [Required]
+        [Required, MaxLength(50)]
         public string Name { get; set; }
 
-        [Required]
-        public DateTime CreatedOn { get; set; }
-
-
-        //foriegn keys relationship      
+        //foriegn key parent   
         public virtual ICollection<RolePermission> RolePermissions { get; set; }
     }
 }
