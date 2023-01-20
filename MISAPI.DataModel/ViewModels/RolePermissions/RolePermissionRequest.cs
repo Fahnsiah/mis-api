@@ -9,13 +9,13 @@ namespace MISAPI.DataModel.ViewModels.RolePermissions
     public class RolePermissionRequest
     {
         [Required, MaxLength(25)]
-        public string ModuleId { get; set; }
+        public string MenuId { get; set; }
                 
         [MaxLength(25)]
-        public string TaskId { get; set; }
+        public string SubMenuId { get; set; }
 
         [Required, MaxLength(25)]
-        public string ActionId { get; set; }
+        public string OperationId { get; set; }
 
         [Required]
         public int RoleId { get; set; }

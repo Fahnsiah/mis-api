@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace MISAPI.DataModel.Models.Roles
 {
@@ -14,13 +14,13 @@ namespace MISAPI.DataModel.Models.Roles
         public int Id { get; set; }
 
         [Required, MaxLength(25)]
-        public string ModuleId { get; set; }
+        public string MenuId { get; set; }
 
         [MaxLength(25)]
-        public string TaskId { get; set; }
+        public string SubMenuId { get; set; }
 
         [Required, MaxLength(25)]
-        public string ActionId { get; set; }
+        public string OperationId { get; set; }
 
         [DefaultValue(true)]
         public bool IsDeleted { get; set; }
@@ -31,5 +31,14 @@ namespace MISAPI.DataModel.Models.Roles
 
         [ForeignKey("RoleId")]
         public virtual Role Role { get; set; }
+
+        [ForeignKey("MenuId")]
+        public virtual Menu Menu { get; set; }
+
+        [ForeignKey("SubMenuId")]
+        public virtual SubMenu SubMenu { get; set; }
+
+        [ForeignKey("OperationId")]
+        public virtual Operation Operation { get; set; }
     }
 }

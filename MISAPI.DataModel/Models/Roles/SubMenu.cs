@@ -7,24 +7,16 @@ using System.Threading.Tasks;
 
 namespace MISAPI.DataModel.Models.Roles
 {
-    public class Task 
+    public class SubMenu : BaseModel
     {
-        [MaxLength(25)]
+        [Key, MaxLength(25)]
         public string Id { get; set; }
 
         [Required, MaxLength(50)]
         public string Name { get; set; }
 
-        [Required]
-        public DateTime CreatedOn { get; set; }
-
-        //foriegn key relationship
         [Required, MaxLength(25)]
-        public string ModuleId { get; set; }
-
-        [ForeignKey("ModuleId")]
-        public virtual Module Module { get; set; }
-
+        public string MenuId { get; set; }
 
         public ICollection<RolePermission> RolePermissions { get; set; }
     }

@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace MISAPI.DataModel.ViewModels.RolePermissions
 {
-    public class TaskResponse: BaseViewModel
+    public class MenuResponse : BaseViewModel
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public string ModuleId { get; set; }
     }
 }

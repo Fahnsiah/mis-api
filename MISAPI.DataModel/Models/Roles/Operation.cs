@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace MISAPI.DataModel.Models.Roles
 {
-    public class Module: BaseModel
+    public class Operation: BaseModel
     {
-        [MaxLength(25)]
+        [Key, MaxLength(25)]
         public string Id { get; set; }
 
         [Required, MaxLength(50)]
         public string Name { get; set; }
 
-        //foriegn key parent
-        public virtual ICollection<Task> Tasks { get; set; }
+        //foriegn key parent   
+        public virtual ICollection<RolePermission> RolePermissions { get; set; }
     }
 }

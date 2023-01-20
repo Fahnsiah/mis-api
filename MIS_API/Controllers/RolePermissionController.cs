@@ -34,26 +34,33 @@ namespace MIS_API.Controllers
             //return Ok(data);
         }
 
-        [HttpGet("actions")]
-        public ActionResult<IEnumerable<ModuleResponse>> GetActions()
+        [HttpGet("operations")]
+        public ActionResult<IEnumerable<OperationResponse>> GetOperations(string id)
         {
-            var data = _rolePermissionService.GetActions();
+            var data = _rolePermissionService.GetOperations(id);
             return Ok(data);
         }
 
 
-        [HttpGet("tasks")]
-        public ActionResult<IEnumerable<ModuleResponse>> GetTasks()
+        [HttpGet("subMenus")]
+        public ActionResult<IEnumerable<MenuResponse>> GetSubMenus()
         {
-            var data = _rolePermissionService.GetTasks();
+            var data = _rolePermissionService.GetSubMenus();
             return Ok(data);
         }
 
 
-        [HttpGet("modules")]
-        public ActionResult<IEnumerable<ModuleResponse>> GetModules()
+        [HttpGet("menus")]
+        public ActionResult<IEnumerable<MenuResponse>> GetMenus()
         {
-            var data = _rolePermissionService.GetModules();
+            var data = _rolePermissionService.GetMenus();
+            return Ok(data);
+        }
+
+        [HttpGet("module-operation")]
+        public ActionResult<IEnumerable<OperationResponse>> GetMenuOperations()
+        {
+            var data = _rolePermissionService.GetMenuOperations();
             return Ok(data);
         }
 
@@ -78,7 +85,7 @@ namespace MIS_API.Controllers
         {
             var data = _rolePermissionService.Create(model);            
             return Ok(data);
-        }
+        }    
 
         // PUT api/<TransactionTypeController>/5
         [HttpPut("{id}")]
@@ -96,11 +103,18 @@ namespace MIS_API.Controllers
             return Ok(new { message = "Record deleted successfully" });
         }
 
-        [HttpGet("admin-roles")]
-        public IActionResult AddAdminRoles()
+        [HttpGet("update-admin-roles")]
+        public IActionResult UpdateAdminRoles()
         {
-            _rolePermissionService.AddAdminRoles();
-            return Ok(new { message = "All existing permissions in the system have been assigned to admin." });
+            if (_rolePermissionService.UpdateAdminRoles())
+            {
+                return Ok(new { message = "All existing permissions in the system have been assigned to admin." });
+            }
+            else
+            {
+                return Ok(new { message = "Error occurred while updating the admin roles" });
+            }
+           
         }
     }
 }

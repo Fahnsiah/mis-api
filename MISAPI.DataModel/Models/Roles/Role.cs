@@ -12,6 +12,7 @@ namespace MISAPI.DataModel.Models.Roles
 {
     public class Role : BaseModel
     {
+        [Key]
         public int Id { get; set; }
 
         

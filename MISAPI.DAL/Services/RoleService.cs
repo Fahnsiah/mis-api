@@ -64,7 +64,7 @@ namespace MISAPI.DAL.Services
 
         public IEnumerable<RoleResponse> GetAll()
         {
-            var data = _context.Roles.Where(x=>x.IsDeleted == false);            
+            var data = _context.Roles.Where(x=>x.IsDeleted == false && x.Id > 1);            
             return _mapper.Map<IList<RoleResponse>>(data);
         }
 

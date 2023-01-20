@@ -23,6 +23,8 @@ namespace MISAPI.DataModel.Models.Accounts
         public string Email { get; set; }
         [Required,MinLength(6), MaxLength(150)]
         public string PasswordHash { get; set; }
+        [Required,  MaxLength(1)]
+        public string Gender { get; set; }
         public bool AcceptTerms { get; set; }
         //public RoleEnum RoleEnum { get; set; }
         [MaxLength(1500)]

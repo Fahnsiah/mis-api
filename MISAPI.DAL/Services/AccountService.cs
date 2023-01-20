@@ -39,28 +39,35 @@ namespace MISAPI.DAL.Services
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress)
         {
-            var generalData = new GeneralData();
-            var account = _context.Accounts.SingleOrDefault(x => x.Email == model.Email);
+            try
+            {
+                var generalData = new GeneralData();
+                var account = _context.Accounts.SingleOrDefault(x => x.Email == model.Email);
 
-            if (account == null || !account.IsVerified || !BC.Verify(model.Password, account.PasswordHash))
-                throw new AppException("Email or password is incorrect");
+                if (account == null || !account.IsVerified || !BC.Verify(model.Password, account.PasswordHash))
+                    throw new AppException("Email or password is incorrect");
 
-            // authentication successful so generate jwt and refresh tokens
-            var jwtToken = generateJwtToken(account);
-            var refreshToken = generateRefreshToken(ipAddress);
-            account.RefreshTokens.Add(refreshToken);            
+                // authentication successful so generate jwt and refresh tokens
+                var jwtToken = generateJwtToken(account);
+                var refreshToken = generateRefreshToken(ipAddress);
+                account.RefreshTokens.Add(refreshToken);
 
-            // remove old refresh tokens from account
-            removeOldRefreshTokens(account);
+                // remove old refresh tokens from account
+                removeOldRefreshTokens(account);
 
-            // save changes to db
-            _context.Update(account);
-            _context.SaveChanges();
+                // save changes to db
+                _context.Update(account);
+                _context.SaveChanges();
 
-            var response = _mapper.Map<AuthenticateResponse>(account);
-            response.JwtToken = jwtToken;
-            response.RefreshToken = refreshToken.Token;            
-            return response;
+                var response = _mapper.Map<AuthenticateResponse>(account);
+                response.JwtToken = jwtToken;
+                response.RefreshToken = refreshToken.Token;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return new AuthenticateResponse(){ Success = false, Message = ex.Message};
+            }
         }
 
         public AuthenticateResponse RefreshToken(string token, string ipAddress)

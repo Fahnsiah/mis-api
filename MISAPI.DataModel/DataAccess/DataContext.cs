@@ -11,7 +11,7 @@ using MISAPI.DataModel.Models.Councils;
 
 namespace MISAPI.DataModel.DataAccess
 {
-    public class DataContext: DbContext
+    public class DataContext : DbContext
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -19,8 +19,20 @@ namespace MISAPI.DataModel.DataAccess
                 .HasIndex(x => x.Name)
                 .IsUnique();
 
+            modelBuilder.Entity<RolePermission>()
+                .HasIndex(p => new { p.MenuId, p.SubMenuId, p.OperationId, p.RoleId }).IsUnique();
+
+            modelBuilder.Entity<SubMenu>()
+                .HasIndex(p => new {p.Id, p.MenuId, p.Name }).IsUnique();
+
+            modelBuilder.Entity<Operation>()
+                .HasIndex(p => new { p.Name }).IsUnique();
+
             modelBuilder.Entity<Account>()
-                .Property(x => x.RoleId);
+                .Property(x => x.RoleId).HasDefaultValue(1);
+
+            modelBuilder.Entity<MenuOperation>()
+                .HasKey(p => new { p.MenuId, p.OperationId });
 
             //seed the required tables            
             this.SeedCouncilType(modelBuilder);
@@ -28,16 +40,18 @@ namespace MISAPI.DataModel.DataAccess
             this.SeedCouncils(modelBuilder);
             this.SeedRoles(modelBuilder);
             this.SeedUsers(modelBuilder);
+
         }
 
         public DbSet<Account> Accounts { get; set; }
 
-        public DbSet<Module> Modules { get; set; }
-        public DbSet<Task> Tasks { get; set; }
-        public DbSet<MISAPI.DataModel.Models.Roles.Action> Actions { get; set; }
+        public DbSet<Menu> Menus { get; set; }
+        public DbSet<SubMenu> SubMenus { get; set; }
+        public DbSet<Operation> Operations { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<Council> Councils { get; set; }
+        public DbSet<MenuOperation> MenuOperations { get; set; }
 
         private readonly IConfiguration Configuration;
 
@@ -100,13 +114,13 @@ namespace MISAPI.DataModel.DataAccess
         {
             var council = new Council
             {
-               Id=1,
-               No = 1,
-               CouncilTypeId = 1,
-               CountryId = 1,
-               Address = "SecondI, Ghana",
-               ConsecreatedOn = Convert.ToDateTime("November 18, 1926"),
-               CreatedOn = DateTime.Now
+                Id = 1,
+                No = 1,
+                CouncilTypeId = 1,
+                CountryId = 1,
+                Address = "SecondI, Ghana",
+                ConsecreatedOn = Convert.ToDateTime("November 18, 1926"),
+                CreatedOn = DateTime.Now
 
             };
             builder.Entity<Council>().HasData(council);
@@ -121,6 +135,7 @@ namespace MISAPI.DataModel.DataAccess
                 MiddleName = " SK",
                 LastName = "Knight",
                 Email = "info@mis.org",
+                Gender = "M",
                 RoleId = 1,
                 CouncilId = 1,
                 CreatedOn = System.DateTime.Now,
@@ -128,10 +143,11 @@ namespace MISAPI.DataModel.DataAccess
                 AcceptTerms = true,
 
             };
-           
+
             user.PasswordHash = BC.HashPassword("unity");
             builder.Entity<Account>().HasData(user);
 
         }
+       
     }
 }

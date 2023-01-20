@@ -37,11 +37,12 @@ namespace MISAPI.DAL.Helpers
             CreateMap<RolePermissionRequest, RolePermission>();
             CreateMap<RolePermission, RolePermissionResponse>();
 
-            CreateMap<Module, ModuleResponse>();
-            CreateMap<Task, TaskResponse>();
-            CreateMap<Action, ActionResponse>();
+            CreateMap<Menu, MenuResponse>();
+            CreateMap<SubMenu, SubMenuResponse>();
+            CreateMap<Operation, OperationResponse>();
+            CreateMap<MenuOperation, MenuOperationResponse>(); 
 
-            CreateMap<RoleAddRemoveRequest, RolePermission>();            
+            CreateMap<RoleAddRemoveRequest, RolePermission>(); 
 
         }
     }

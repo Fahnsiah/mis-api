@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using MISAPI.DAL.Helpers;
 using MISAPI.DAL.Interfaces;
@@ -14,35 +16,42 @@ namespace MISAPI.DAL.Services
     public class RolePermissionService : IRolePermissionInterface
     {
         private readonly DataContext _context;
+        private readonly DataContext _dbContext;
         private readonly IMapper _mapper;
         private readonly AppSettings _appSettings;
+        private readonly IConfiguration _configuration;
 
         public RolePermissionService(
             DataContext context,
             IMapper mapper,
-            IOptions<AppSettings> appSettings)
+            IOptions<AppSettings> appSettings,
+            IConfiguration  configuration)
         {
             _context = context;
+            _dbContext = context;
             _mapper = mapper;
             _appSettings = appSettings.Value;
+            _configuration = configuration;
+            //_configuration = _configuration.GetConnectionString("dbConnection");
         }
 
-        public IEnumerable<ModuleResponse> GetModules()
+        public IEnumerable<MenuResponse> GetMenus()
         {
-            var data = _context.Modules.OrderBy(x => x.Id);
-            return _mapper.Map<IList<ModuleResponse>>(data);
+            var data = _context.Menus.Where(x=>x.Id != "AdminTasks").OrderBy(x => x.Id);
+            return _mapper.Map<IList<MenuResponse>>(data);
         }
 
-        public IEnumerable<TaskResponse> GetTasks()
+        public IEnumerable<SubMenuResponse> GetSubMenus()
         {
-            var data = _context.Tasks.OrderBy(x => x.Id);
-            return _mapper.Map<IList<TaskResponse>>(data);
+            var data = _context.SubMenus.OrderBy(x => x.Id);
+            return _mapper.Map<IList<SubMenuResponse>>(data);
         }
 
-        public IEnumerable<ActionResponse> GetActions()
+        public IEnumerable<OperationResponse> GetOperations(string id)
         {
-            var data = _context.Actions.OrderBy(x => x.Id);
-            return _mapper.Map<IList<ActionResponse>>(data);
+            var moduleOperationIds = _context.MenuOperations.Where(x => x.MenuId == id).Select(s=>s.OperationId).ToList();
+            var data = _context.Operations.Where(x=> moduleOperationIds.Contains(x.Id)).OrderBy(x => x.Id);
+            return _mapper.Map<IList<OperationResponse>>(data);
         }
         public RolePermissionResponse Create(RolePermissionRequest model)
         {
@@ -50,9 +59,9 @@ namespace MISAPI.DAL.Services
             {
                 var data = _mapper.Map<RolePermission>(model);
                 var role = _context.RolePermissions.Where(x => x.RoleId == data.RoleId &&
-                                                    x.ModuleId == data.ModuleId &&
-                                                    x.TaskId == data.TaskId &&
-                                                    x.ActionId == data.ActionId).FirstOrDefault();
+                                                    x.MenuId == data.MenuId &&
+                                                    x.SubMenuId == data.SubMenuId &&
+                                                    x.OperationId == data.OperationId).FirstOrDefault();
 
                 if (role != null)
                 {
@@ -125,30 +134,36 @@ namespace MISAPI.DAL.Services
 
             return _mapper.Map<RolePermissionResponse>(data);
         }
-        public void AddAdminRoles()
+        public bool UpdateAdminRoles()
         {
             try
             {
-                var moduleList = _context.Modules.ToList();
-                var actionList = _context.Actions.ToList();
+                if (!PrepareRoles())
+                {
+                    return false;
+                }
+
+                var moduleList = _context.Menus.ToList();
 
                 foreach (var module in moduleList)
                 {
-                    var taskList = _context.Tasks.Where(x => x.ModuleId == module.Id).ToList();
-                    if (taskList.Count() > 0)
+                    var moduleOperations = _context.MenuOperations.Where(x => x.MenuId == module.Id).Select(s=>s.OperationId).ToList();
+                    var operationList = _context.Operations.Where(x=> moduleOperations.Contains(x.Id)).ToList();
+                    var subMenuList = _context.SubMenus.Where(x => x.MenuId == module.Id).ToList();
+                    if (subMenuList.Count() > 0)
                     {
-                        foreach (var task in taskList)
+                        foreach (var subMenu in subMenuList)
                         {
-                            foreach (var action in actionList)
+                            foreach (var action in operationList)
                             {
-                                if ((_context.RolePermissions.Where(x => x.ModuleId == module.Id && x.TaskId == task.Id && x.ActionId == action.Id).Count() == 0))
+                                if ((_context.RolePermissions.Where(x => x.MenuId == module.Id && x.SubMenuId == subMenu.Id && x.OperationId == action.Id).Count() == 0))
                                 {
                                     var data = new RolePermission()
                                     {
                                         RoleId = 1,
-                                        ModuleId = module.Id,
-                                        TaskId = task.Id,
-                                        ActionId = action.Id,
+                                        MenuId = module.Id,
+                                        SubMenuId = subMenu.Id,
+                                        OperationId = action.Id,
                                         CreatedOn = DateTime.Now,
                                         IsDeleted = false,
                                         UpdateLogId = 1
@@ -161,15 +176,15 @@ namespace MISAPI.DAL.Services
                     }
                     else
                     {
-                        foreach (var action in actionList)
+                        foreach (var action in operationList)
                         {
-                            if ((_context.RolePermissions.Where(x => x.ModuleId == module.Id && x.ActionId == action.Id).Count() == 0))
+                            if ((_context.RolePermissions.Where(x => x.MenuId == module.Id && x.OperationId == action.Id).Count() == 0))
                             {
                                 var data = new RolePermission()
                                 {
                                     RoleId = 1,
-                                    ModuleId = module.Id,
-                                    ActionId = action.Id,
+                                    MenuId = module.Id,
+                                    OperationId = action.Id,
                                     CreatedOn = DateTime.Now,
                                     IsDeleted = false,
                                     UpdateLogId = 1
@@ -182,10 +197,81 @@ namespace MISAPI.DAL.Services
                 }
 
                 _context.SaveChanges();
+                return true;
             }
             catch (Exception ex)
             {
                 Console.Write(ex.Message);
+                return false;
+            }
+        }
+        
+        public bool PrepareRoles()
+        {
+            try
+            {
+                DataContext dataContext = new DataContext(_configuration);
+                var moduleList = StaticData.GetMenuList();
+                List<Menu> newMenuList = new List<Menu>();
+                foreach (var item in moduleList)
+                {
+                    if (dataContext.Menus.Where(x => x.Id == item.Id && x.Name == item.Name).Count() == 0)
+                    {
+                        newMenuList.Add(item);
+                    }
+
+                }
+                dataContext.Menus.AddRange(newMenuList);
+                dataContext.SaveChanges();
+
+                dataContext = new DataContext(_configuration);
+                var operationList = StaticData.GetOperationList();
+                List<Operation> newOperationList = new List<Operation>();
+                foreach (var item in operationList)
+                {
+                    if (dataContext.Operations.Where(x => x.Id == item.Id && x.Name == item.Name).Count() == 0)
+                    {
+                        newOperationList.Add(item);
+                    }
+
+                }
+                dataContext.Operations.AddRange(newOperationList);
+                dataContext.SaveChanges();
+
+                dataContext = new DataContext(_configuration);
+                var moduleOperationList = StaticData.GetMenuOpertionList();
+                List<MenuOperation> newMenuOperationList = new List<MenuOperation>();
+                foreach (var item in moduleOperationList)
+                {
+                    if (dataContext.MenuOperations.Where(x => x.MenuId == item.MenuId && x.OperationId == item.OperationId).Count() == 0)
+                    {
+                        newMenuOperationList.Add(item);
+                    }
+
+                }
+                dataContext.MenuOperations.AddRange(newMenuOperationList);
+                dataContext.SaveChanges();
+
+                dataContext = new DataContext(_configuration);
+                var subMenuList = StaticData.GetSubMenuList();
+                List<SubMenu> newSubMenuList = new List<SubMenu>();
+                foreach (var item in subMenuList)
+                {
+                    //_dbContext.Entry(item).State = EntityState.Detached;
+                    if (dataContext.SubMenus.Where(x => x.Id == item.Id && x.MenuId == item.MenuId && x.Name == item.Name).Count() == 0)
+                    {
+                        newSubMenuList.Add(item);
+                    }
+
+                }                
+                dataContext.SubMenus.AddRange(newSubMenuList);
+                dataContext.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
         private RolePermission getData(int id)
@@ -202,9 +288,9 @@ namespace MISAPI.DAL.Services
                 foreach (var item in model)
                 {
                     var data = _context.RolePermissions.Where(x => x.RoleId == item.RoleId &&
-                                                                    x.ModuleId == item.ModuleId &&
-                                                                    x.TaskId == item.TaskId &&
-                                                                    x.ActionId == item.ActionId).FirstOrDefault();
+                                                                    x.MenuId == item.MenuId &&
+                                                                    x.SubMenuId == item.SubMenuId &&
+                                                                    x.OperationId == item.OperationId).FirstOrDefault();
                     if (data == null)
                     {
                         if (item.Add)
@@ -212,9 +298,9 @@ namespace MISAPI.DAL.Services
                             var newData = new RolePermission()
                             {
                                 RoleId = item.RoleId,
-                                ModuleId = item.ModuleId,
-                                TaskId = item.TaskId,
-                                ActionId = item.ActionId,
+                                MenuId = item.MenuId,
+                                SubMenuId = item.SubMenuId,
+                                OperationId = item.OperationId,
                                 UserLogId = item.UserLogId,
                                 CreatedOn = DateTime.Now
                             };
@@ -253,6 +339,12 @@ namespace MISAPI.DAL.Services
             {
                 Console.Write(ex.Message);
             }
+        }
+
+        public IEnumerable<MenuOperationResponse> GetMenuOperations()
+        {
+            var data = _context.MenuOperations;
+            return _mapper.Map<IList<MenuOperationResponse>>(data);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace MISAPI.DataModel.Models.Accounts
         public int UserId { get; set; }
 
         [Required]
-        public int ActionId { get; set; }
+        public int OperationId { get; set; }
 
         [Required, MaxLength(50)]
         public string ActionOn { get; set; }
@@ -25,7 +25,7 @@ namespace MISAPI.DataModel.Models.Accounts
 
 
 
-        [ForeignKey("ActionId")]
+        [ForeignKey("OperationId")]
         public virtual Action Role { get; set; }
 
     }
