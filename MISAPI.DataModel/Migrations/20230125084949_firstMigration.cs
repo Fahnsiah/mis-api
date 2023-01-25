@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MISAPI.DataModel.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class firstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,6 +35,28 @@ namespace MISAPI.DataModel.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Country", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Currencies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Symbol = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    RateToUSD = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    UserLogId = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdateLogId = table.Column<long>(type: "bigint", nullable: true),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Currencies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -148,6 +170,33 @@ namespace MISAPI.DataModel.Migrations
                         name: "FK_Councils_Country_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Country",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Articles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    CurrencyId = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    UserLogId = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdateLogId = table.Column<long>(type: "bigint", nullable: true),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Articles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Articles_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currencies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -282,17 +331,17 @@ namespace MISAPI.DataModel.Migrations
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreatedOn", "Description", "Enabled", "IsDeleted", "Name", "UpdateLogId", "UpdatedOn", "UserLogId" },
-                values: new object[] { 1, new DateTime(2023, 1, 20, 19, 36, 26, 355, DateTimeKind.Local).AddTicks(3523), "The super admin roles", true, false, "Super Admin", null, null, 0L });
+                values: new object[] { 1, new DateTime(2023, 1, 25, 8, 49, 48, 777, DateTimeKind.Local).AddTicks(6001), "The super admin roles", true, false, "Super Admin", null, null, 0L });
 
             migrationBuilder.InsertData(
                 table: "Councils",
                 columns: new[] { "Id", "Address", "ConsecreatedOn", "CouncilTypeId", "CountryId", "CreatedOn", "No", "UpdateLogId", "UpdatedOn", "UserLogId" },
-                values: new object[] { 1, "SecondI, Ghana", new DateTime(1926, 11, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, new DateTime(2023, 1, 20, 19, 36, 26, 355, DateTimeKind.Local).AddTicks(472), 1, null, null, null });
+                values: new object[] { 1, "SecondI, Ghana", new DateTime(1926, 11, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, new DateTime(2023, 1, 25, 8, 49, 48, 777, DateTimeKind.Local).AddTicks(2729), 1, null, null, null });
 
             migrationBuilder.InsertData(
                 table: "Accounts",
                 columns: new[] { "Id", "AcceptTerms", "CouncilId", "CreatedOn", "Email", "FirstName", "Gender", "LastName", "MiddleName", "PasswordHash", "PasswordReset", "ResetToken", "ResetTokenExpires", "RoleId", "UpdateLogId", "UpdatedOn", "UserLogId", "VerificationToken", "Verified" },
-                values: new object[] { 1, true, 1, new DateTime(2023, 1, 20, 19, 36, 26, 355, DateTimeKind.Local).AddTicks(9009), "info@mis.org", "The Supreme", "M", "Knight", " SK", "$2a$11$UH2Oi0ce13iFhxDkF3Al0eLy8fhfk.MIgCRYHS68SI2rhS9o3wc06", null, null, null, 1, null, null, null, null, new DateTime(2023, 1, 20, 19, 36, 26, 355, DateTimeKind.Local).AddTicks(9162) });
+                values: new object[] { 1, true, 1, new DateTime(2023, 1, 25, 8, 49, 48, 778, DateTimeKind.Local).AddTicks(1451), "info@mis.org", "The Supreme", "M", "Knight", " SK", "$2a$11$7Ybp7UiDv493Jv50djkb4utv1byhoBC0VmoFTbVgNp1xHaEA9fRF2", null, null, null, 1, null, null, null, null, new DateTime(2023, 1, 25, 8, 49, 48, 778, DateTimeKind.Local).AddTicks(1608) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_CouncilId",
@@ -303,6 +352,17 @@ namespace MISAPI.DataModel.Migrations
                 name: "IX_Accounts_RoleId",
                 table: "Accounts",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Articles_CurrencyId",
+                table: "Articles",
+                column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Articles_Name",
+                table: "Articles",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Councils_CouncilTypeId",
@@ -363,6 +423,9 @@ namespace MISAPI.DataModel.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Articles");
+
+            migrationBuilder.DropTable(
                 name: "MenuOperations");
 
             migrationBuilder.DropTable(
@@ -370,6 +433,9 @@ namespace MISAPI.DataModel.Migrations
 
             migrationBuilder.DropTable(
                 name: "RolePermissions");
+
+            migrationBuilder.DropTable(
+                name: "Currencies");
 
             migrationBuilder.DropTable(
                 name: "Accounts");

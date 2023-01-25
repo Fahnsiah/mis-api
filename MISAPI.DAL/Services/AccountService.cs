@@ -119,9 +119,6 @@ namespace MISAPI.DAL.Services
             // map model to new account object
             var account = _mapper.Map<Account>(model);
 
-            // first registered account is an admin
-            var isFirstAccount = _context.Accounts.Count() == 0;
-            //account.RoleEnum = isFirstAccount ? RoleEnum.Admin : RoleEnum.User;
             account.CreatedOn = DateTime.UtcNow;
             account.Verified = DateTime.UtcNow;//added by Will to advoid verification
             account.VerificationToken = randomTokenString();
@@ -205,7 +202,7 @@ namespace MISAPI.DAL.Services
             var data =
                from user in _context.Accounts
                join role in _context.Roles on user.RoleId equals role.Id
-               //where user.Id
+               where user.Id > 1
                select new AccountResponse { 
                    Id = user.Id,
                    RoleId = user.RoleId,

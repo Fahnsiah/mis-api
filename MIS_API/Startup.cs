@@ -52,6 +52,8 @@ namespace MIS_API
             services.AddScoped<IEmailInterface, EmailService>();
             services.AddScoped<IRoleInterface, RoleService>();
             services.AddScoped<IRolePermissionInterface, RolePermissionService>();
+            services.AddScoped<IArticleInterface, ArticleService>();
+            services.AddScoped<ICurrencyInterface, CurrencyService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

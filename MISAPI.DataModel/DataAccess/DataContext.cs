@@ -8,6 +8,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using MISAPI.DataModel.Models;
 using MISAPI.DataModel.Models.Councils;
+using MISAPI.DataModel.Models.Settings;
 
 namespace MISAPI.DataModel.DataAccess
 {
@@ -15,24 +16,9 @@ namespace MISAPI.DataModel.DataAccess
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Role>()
-                .HasIndex(x => x.Name)
-                .IsUnique();
-
-            modelBuilder.Entity<RolePermission>()
-                .HasIndex(p => new { p.MenuId, p.SubMenuId, p.OperationId, p.RoleId }).IsUnique();
-
-            modelBuilder.Entity<SubMenu>()
-                .HasIndex(p => new {p.Id, p.MenuId, p.Name }).IsUnique();
-
-            modelBuilder.Entity<Operation>()
-                .HasIndex(p => new { p.Name }).IsUnique();
-
-            modelBuilder.Entity<Account>()
-                .Property(x => x.RoleId).HasDefaultValue(1);
-
-            modelBuilder.Entity<MenuOperation>()
-                .HasKey(p => new { p.MenuId, p.OperationId });
+            this.SetIndexes(modelBuilder);
+            this.SetCompositeKeys(modelBuilder);
+            this.SetDefaultValues(modelBuilder);
 
             //seed the required tables            
             this.SeedCouncilType(modelBuilder);
@@ -42,9 +28,42 @@ namespace MISAPI.DataModel.DataAccess
             this.SeedUsers(modelBuilder);
 
         }
+        private void SetIndexes(ModelBuilder modelBuilder)
+        {
 
+            modelBuilder.Entity<Article>().HasIndex(p =>  p.Name).IsUnique();
+
+            modelBuilder.Entity<Role>().HasIndex(p => p.Name).IsUnique();
+
+            modelBuilder.Entity<RolePermission>().HasIndex(p => new { p.MenuId, p.SubMenuId, p.OperationId, p.RoleId }).IsUnique();
+
+            modelBuilder.Entity<SubMenu>().HasIndex(p => new { p.Id, p.MenuId, p.Name }).IsUnique();
+
+            modelBuilder.Entity<Operation>().HasIndex(p => new { p.Name }).IsUnique();
+        }
+        private void SetCompositeKeys(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<MenuOperation>().HasKey(p => new { p.MenuId, p.OperationId });
+
+        }
+        private void SetDefaultValues(ModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<Account>()
+                .Property(x => x.RoleId).HasDefaultValue(1);
+
+            modelBuilder.Entity<Currency>()
+                   .Property(x => x.RateToUSD)
+                   .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Article>()
+                   .Property(x => x.Price)
+                   .HasPrecision(18, 2);
+
+        }
+        public DbSet<Currency> Currencies { get; set; }
+        public DbSet<Article> Articles { get; set; }
         public DbSet<Account> Accounts { get; set; }
-
         public DbSet<Menu> Menus { get; set; }
         public DbSet<SubMenu> SubMenus { get; set; }
         public DbSet<Operation> Operations { get; set; }

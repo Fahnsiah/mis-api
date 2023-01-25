@@ -19,6 +19,9 @@ namespace MISAPI.DataModel.ViewModels.Accounts
         [Required, MaxLength(50)]
         public string LastName { get; set; }
 
+        [Required, MaxLength(1)]
+        public string Gender { get; set; }
+
         [Required, EmailAddress, MaxLength(150)]
         public string Email { get; set; }
 

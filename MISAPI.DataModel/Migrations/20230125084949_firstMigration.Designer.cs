@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MISAPI.DataModel.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230120193626_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20230125084949_firstMigration")]
+    partial class firstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -111,15 +111,15 @@ namespace MISAPI.DataModel.Migrations
                             Id = 1,
                             AcceptTerms = true,
                             CouncilId = 1,
-                            CreatedOn = new DateTime(2023, 1, 20, 19, 36, 26, 355, DateTimeKind.Local).AddTicks(9009),
+                            CreatedOn = new DateTime(2023, 1, 25, 8, 49, 48, 778, DateTimeKind.Local).AddTicks(1451),
                             Email = "info@mis.org",
                             FirstName = "The Supreme",
                             Gender = "M",
                             LastName = "Knight",
                             MiddleName = " SK",
-                            PasswordHash = "$2a$11$UH2Oi0ce13iFhxDkF3Al0eLy8fhfk.MIgCRYHS68SI2rhS9o3wc06",
+                            PasswordHash = "$2a$11$7Ybp7UiDv493Jv50djkb4utv1byhoBC0VmoFTbVgNp1xHaEA9fRF2",
                             RoleId = 1,
-                            Verified = new DateTime(2023, 1, 20, 19, 36, 26, 355, DateTimeKind.Local).AddTicks(9162)
+                            Verified = new DateTime(2023, 1, 25, 8, 49, 48, 778, DateTimeKind.Local).AddTicks(1608)
                         });
                 });
 
@@ -171,7 +171,7 @@ namespace MISAPI.DataModel.Migrations
                             ConsecreatedOn = new DateTime(1926, 11, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CouncilTypeId = 1,
                             CountryId = 1,
-                            CreatedOn = new DateTime(2023, 1, 20, 19, 36, 26, 355, DateTimeKind.Local).AddTicks(472),
+                            CreatedOn = new DateTime(2023, 1, 25, 8, 49, 48, 777, DateTimeKind.Local).AddTicks(2729),
                             No = 1
                         });
                 });
@@ -370,7 +370,7 @@ namespace MISAPI.DataModel.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2023, 1, 20, 19, 36, 26, 355, DateTimeKind.Local).AddTicks(3523),
+                            CreatedOn = new DateTime(2023, 1, 25, 8, 49, 48, 777, DateTimeKind.Local).AddTicks(6001),
                             Description = "The super admin roles",
                             Enabled = true,
                             IsDeleted = false,
@@ -467,6 +467,102 @@ namespace MISAPI.DataModel.Migrations
                         .IsUnique();
 
                     b.ToTable("SubMenus");
+                });
+
+            modelBuilder.Entity("MISAPI.DataModel.Models.Settings.Article", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<long?>("UpdateLogId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("UserLogId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Articles");
+                });
+
+            modelBuilder.Entity("MISAPI.DataModel.Models.Settings.Currency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<decimal>("RateToUSD")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Symbol")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
+
+                    b.Property<long?>("UpdateLogId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("UserLogId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Currencies");
                 });
 
             modelBuilder.Entity("MISAPI.DataModel.Models.Accounts.Account", b =>
@@ -588,6 +684,17 @@ namespace MISAPI.DataModel.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("SubMenu");
+                });
+
+            modelBuilder.Entity("MISAPI.DataModel.Models.Settings.Article", b =>
+                {
+                    b.HasOne("MISAPI.DataModel.Models.Settings.Currency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Currency");
                 });
 
             modelBuilder.Entity("MISAPI.DataModel.Models.Councils.CouncilType", b =>

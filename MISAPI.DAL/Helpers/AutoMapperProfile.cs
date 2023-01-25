@@ -1,8 +1,10 @@
 using AutoMapper;
 using MISAPI.DataModel.Models.Accounts;
 using MISAPI.DataModel.Models.Roles;
+using MISAPI.DataModel.Models.Settings;
 using MISAPI.DataModel.ViewModels.Accounts;
 using MISAPI.DataModel.ViewModels.RolePermissions;
+using MISAPI.DataModel.ViewModels.Settings;
 
 namespace MISAPI.DAL.Helpers
 {
@@ -30,7 +32,13 @@ namespace MISAPI.DAL.Helpers
                         return true;
                     }
                 ));
-           
+
+            CreateMap<CurrencyRequest, Currency>();
+            CreateMap<Currency, CurrencyResponse>();
+
+            CreateMap<ArticleRequest, Article>();
+            CreateMap<Article, ArticleResponse>();
+
             CreateMap<RoleRequest, Role>();
             CreateMap<Role, RoleResponse>();
 
