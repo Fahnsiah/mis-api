@@ -8,7 +8,7 @@ namespace MISAPI.DataModel.Models.Roles
 {
     public class Operation: BaseModel
     {
-        [Key, MaxLength(25)]
+        [Key, MaxLength(75)]
         public string Id { get; set; }
 
         [Required, MaxLength(50)]

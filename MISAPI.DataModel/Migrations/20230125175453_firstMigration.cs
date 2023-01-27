@@ -63,8 +63,8 @@ namespace MISAPI.DataModel.Migrations
                 name: "MenuOperations",
                 columns: table => new
                 {
-                    MenuId = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    OperationId = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    MenuId = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
+                    OperationId = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
                     UserLogId = table.Column<long>(type: "bigint", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -77,7 +77,7 @@ namespace MISAPI.DataModel.Migrations
                 name: "Menus",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     UserLogId = table.Column<long>(type: "bigint", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -93,7 +93,7 @@ namespace MISAPI.DataModel.Migrations
                 name: "Operations",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     UserLogId = table.Column<long>(type: "bigint", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -103,6 +103,25 @@ namespace MISAPI.DataModel.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Operations", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Rituals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    UserLogId = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdateLogId = table.Column<long>(type: "bigint", nullable: true),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rituals", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -129,9 +148,9 @@ namespace MISAPI.DataModel.Migrations
                 name: "SubMenus",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    MenuId = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    MenuId = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
                     UserLogId = table.Column<long>(type: "bigint", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateLogId = table.Column<long>(type: "bigint", nullable: true),
@@ -207,9 +226,9 @@ namespace MISAPI.DataModel.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MenuId = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    SubMenuId = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
-                    OperationId = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    MenuId = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
+                    SubMenuId = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: true),
+                    OperationId = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false),
                     UserLogId = table.Column<long>(type: "bigint", nullable: false),
@@ -289,6 +308,30 @@ namespace MISAPI.DataModel.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ConsecrationArticles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ArticleId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    UserLogId = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdateLogId = table.Column<long>(type: "bigint", nullable: true),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ConsecrationArticles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ConsecrationArticles_Articles_ArticleId",
+                        column: x => x.ArticleId,
+                        principalTable: "Articles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RefreshToken",
                 columns: table => new
                 {
@@ -331,17 +374,17 @@ namespace MISAPI.DataModel.Migrations
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreatedOn", "Description", "Enabled", "IsDeleted", "Name", "UpdateLogId", "UpdatedOn", "UserLogId" },
-                values: new object[] { 1, new DateTime(2023, 1, 25, 8, 49, 48, 777, DateTimeKind.Local).AddTicks(6001), "The super admin roles", true, false, "Super Admin", null, null, 0L });
+                values: new object[] { 1, new DateTime(2023, 1, 25, 17, 54, 52, 768, DateTimeKind.Local).AddTicks(9392), "The super admin roles", true, false, "Super Admin", null, null, 0L });
 
             migrationBuilder.InsertData(
                 table: "Councils",
                 columns: new[] { "Id", "Address", "ConsecreatedOn", "CouncilTypeId", "CountryId", "CreatedOn", "No", "UpdateLogId", "UpdatedOn", "UserLogId" },
-                values: new object[] { 1, "SecondI, Ghana", new DateTime(1926, 11, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, new DateTime(2023, 1, 25, 8, 49, 48, 777, DateTimeKind.Local).AddTicks(2729), 1, null, null, null });
+                values: new object[] { 1, "SecondI, Ghana", new DateTime(1926, 11, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, new DateTime(2023, 1, 25, 17, 54, 52, 768, DateTimeKind.Local).AddTicks(3101), 1, null, null, null });
 
             migrationBuilder.InsertData(
                 table: "Accounts",
                 columns: new[] { "Id", "AcceptTerms", "CouncilId", "CreatedOn", "Email", "FirstName", "Gender", "LastName", "MiddleName", "PasswordHash", "PasswordReset", "ResetToken", "ResetTokenExpires", "RoleId", "UpdateLogId", "UpdatedOn", "UserLogId", "VerificationToken", "Verified" },
-                values: new object[] { 1, true, 1, new DateTime(2023, 1, 25, 8, 49, 48, 778, DateTimeKind.Local).AddTicks(1451), "info@mis.org", "The Supreme", "M", "Knight", " SK", "$2a$11$7Ybp7UiDv493Jv50djkb4utv1byhoBC0VmoFTbVgNp1xHaEA9fRF2", null, null, null, 1, null, null, null, null, new DateTime(2023, 1, 25, 8, 49, 48, 778, DateTimeKind.Local).AddTicks(1608) });
+                values: new object[] { 1, true, 1, new DateTime(2023, 1, 25, 17, 54, 52, 769, DateTimeKind.Local).AddTicks(7019), "info@mis.org", "The Supreme", "M", "Knight", " SK", "$2a$11$ckHe3fTX.yjGkKNYpJkKcORddDf6a/mpcwVyMNDtaRmQV8nc5PkHG", null, null, null, 1, null, null, null, null, new DateTime(2023, 1, 25, 17, 54, 52, 769, DateTimeKind.Local).AddTicks(7205) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_CouncilId",
@@ -363,6 +406,11 @@ namespace MISAPI.DataModel.Migrations
                 table: "Articles",
                 column: "Name",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ConsecrationArticles_ArticleId",
+                table: "ConsecrationArticles",
+                column: "ArticleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Councils_CouncilTypeId",
@@ -423,7 +471,7 @@ namespace MISAPI.DataModel.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Articles");
+                name: "ConsecrationArticles");
 
             migrationBuilder.DropTable(
                 name: "MenuOperations");
@@ -432,10 +480,13 @@ namespace MISAPI.DataModel.Migrations
                 name: "RefreshToken");
 
             migrationBuilder.DropTable(
+                name: "Rituals");
+
+            migrationBuilder.DropTable(
                 name: "RolePermissions");
 
             migrationBuilder.DropTable(
-                name: "Currencies");
+                name: "Articles");
 
             migrationBuilder.DropTable(
                 name: "Accounts");
@@ -448,6 +499,9 @@ namespace MISAPI.DataModel.Migrations
 
             migrationBuilder.DropTable(
                 name: "SubMenus");
+
+            migrationBuilder.DropTable(
+                name: "Currencies");
 
             migrationBuilder.DropTable(
                 name: "Councils");

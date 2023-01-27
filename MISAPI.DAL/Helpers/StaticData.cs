@@ -43,6 +43,9 @@ namespace MISAPI.DAL.Helpers
 
                 new SubMenu {Id="SettingsArticles" , MenuId ="Settings",  Name = "Setting Articles", UserLogId = 1, CreatedOn = DateTime.Now},
                 new SubMenu {Id="SettingsCurrencies" , MenuId ="Settings",  Name = "Setting Currencies", UserLogId = 1, CreatedOn = DateTime.Now},
+                new SubMenu {Id="SettingsRituals" , MenuId ="Settings",  Name = "Setting Rituals", UserLogId = 1, CreatedOn = DateTime.Now},
+                new SubMenu {Id="SettingsConsecrationArticles" , MenuId ="Settings",  Name = "Setting Consecration Articles", UserLogId = 1, CreatedOn = DateTime.Now},
+                new SubMenu {Id="SettingsConsecrationRequirements" , MenuId ="Settings",  Name = "Setting Consecration Requirements", UserLogId = 1, CreatedOn = DateTime.Now},
 
                 //new SubMenu {Id="ConsecreationsJuniors", MenuId ="Consecreations",  Name = "Junior Council/Court Consecreation", UserLogId = 1, CreatedOn = DateTime.Now},
                 //new SubMenu {Id="ConsecreationsAdults", MenuId ="Consecreations",  Name = "Adult Council/Court Consecreation", UserLogId = 1, CreatedOn = DateTime.Now},

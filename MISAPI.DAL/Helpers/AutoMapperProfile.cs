@@ -31,7 +31,16 @@ namespace MISAPI.DAL.Helpers
 
                         return true;
                     }
-                ));
+                )); 
+
+            CreateMap<ConsecrationRequirementRequest, ConsecrationRequirement>();
+            CreateMap<ConsecrationRequirement, ConsecrationRequirementResponse>();
+
+            CreateMap<ConsecrationArticleRequest, ConsecrationArticle>();
+            CreateMap<ConsecrationArticle, ConsecrationArticleResponse>();
+
+            CreateMap<RitualRequest, Ritual>();
+            CreateMap<Ritual, RitualResponse>();
 
             CreateMap<CurrencyRequest, Currency>();
             CreateMap<Currency, CurrencyResponse>();

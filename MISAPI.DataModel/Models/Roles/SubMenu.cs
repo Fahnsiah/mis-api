@@ -9,13 +9,13 @@ namespace MISAPI.DataModel.Models.Roles
 {
     public class SubMenu : BaseModel
     {
-        [Key, MaxLength(25)]
+        [Key, MaxLength(75)]
         public string Id { get; set; }
 
         [Required, MaxLength(50)]
         public string Name { get; set; }
 
-        [Required, MaxLength(25)]
+        [Required, MaxLength(75)]
         public string MenuId { get; set; }
 
         public ICollection<RolePermission> RolePermissions { get; set; }

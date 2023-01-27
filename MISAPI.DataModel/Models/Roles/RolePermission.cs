@@ -13,13 +13,13 @@ namespace MISAPI.DataModel.Models.Roles
         [Key]
         public int Id { get; set; }
 
-        [Required, MaxLength(25)]
+        [Required, MaxLength(75)]
         public string MenuId { get; set; }
 
-        [MaxLength(25)]
+        [MaxLength(75)]
         public string SubMenuId { get; set; }
 
-        [Required, MaxLength(25)]
+        [Required, MaxLength(75)]
         public string OperationId { get; set; }
 
         [DefaultValue(true)]

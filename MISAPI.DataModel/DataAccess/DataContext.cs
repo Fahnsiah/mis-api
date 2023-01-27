@@ -31,7 +31,9 @@ namespace MISAPI.DataModel.DataAccess
         private void SetIndexes(ModelBuilder modelBuilder)
         {
 
-            modelBuilder.Entity<Article>().HasIndex(p =>  p.Name).IsUnique();
+            modelBuilder.Entity<ConsecrationArticle>().HasIndex(p => p.ArticleId).IsUnique();
+
+            modelBuilder.Entity<Article>().HasIndex(p => p.Name).IsUnique();
 
             modelBuilder.Entity<Role>().HasIndex(p => p.Name).IsUnique();
 
@@ -61,6 +63,9 @@ namespace MISAPI.DataModel.DataAccess
                    .HasPrecision(18, 2);
 
         }
+        public DbSet<ConsecrationRequirement> ConsecrationRequirements { get; set; }
+        public DbSet<ConsecrationArticle> ConsecrationArticles { get; set; }
+        public DbSet<Ritual> Rituals { get; set; }
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Article> Articles { get; set; }
         public DbSet<Account> Accounts { get; set; }

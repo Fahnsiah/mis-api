@@ -9,10 +9,10 @@ namespace MISAPI.DataModel.Models.Roles
 {
     public class MenuOperation
     {
-        [MaxLength(25)]
+        [MaxLength(75)]
         public string MenuId { get; set; }
 
-        [MaxLength(25)]
+        [MaxLength(75)]
         public string OperationId { get; set; }
 
         public long UserLogId { get; set; }
