@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MISAPI.DAL.Interfaces;
-using MISAPI.DataModel.ViewModels.Accounts;
+using MISAPI.DataModel.ViewModels;
 using System;
 using System.Collections.Generic;
 

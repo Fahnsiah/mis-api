@@ -1,4 +1,4 @@
-﻿using MISAPI.DataModel.ViewModels.RolePermissions;
+﻿using MISAPI.DataModel.ViewModels;
 using System.Collections.Generic;
 
 namespace MISAPI.DAL.Interfaces

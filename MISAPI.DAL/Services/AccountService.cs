@@ -9,15 +9,15 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using MISAPI.DataModel.Models.Accounts;
 using MISAPI.DAL.Interfaces;
 using MISAPI.DataModel.DataAccess;
 using MISAPI.DAL.Helpers;
-using MISAPI.DataModel.ViewModels.Accounts;
+using MISAPI.DataModel.ViewModels;
+using MISAPI.DataModel.Models;
 
 namespace MISAPI.DAL.Services
 {
-   
+
     public class AccountService : IAccountInterface
     {
         private readonly DataContext _context;

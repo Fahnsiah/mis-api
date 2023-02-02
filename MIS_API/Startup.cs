@@ -57,6 +57,8 @@ namespace MIS_API
             services.AddScoped<IRitualInterface, RitualService>();
             services.AddScoped<IConsecrationArticleInterface, ConsecrationArticleService>();
             services.AddScoped<IConsecrationRequirementInterface, ConsecrationRequirementService>();
+            services.AddScoped<IProposedCouncilInterface, ProposedCouncilService>(); 
+            services.AddScoped<ICouncilTypeInterface, CouncilTypeService>(); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

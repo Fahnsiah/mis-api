@@ -1,14 +1,9 @@
 ﻿using BC = BCrypt.Net.BCrypt;
 using Microsoft.EntityFrameworkCore;
-using MISAPI.DataModel.Models.Accounts;
-using MISAPI.DataModel.Models.Roles;
+using MISAPI.DataModel.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Extensions.Configuration;
-using MISAPI.DataModel.Models;
-using MISAPI.DataModel.Models.Councils;
-using MISAPI.DataModel.Models.Settings;
 
 namespace MISAPI.DataModel.DataAccess
 {
@@ -18,7 +13,8 @@ namespace MISAPI.DataModel.DataAccess
         {
             this.SetIndexes(modelBuilder);
             this.SetCompositeKeys(modelBuilder);
-            this.SetDefaultValues(modelBuilder);
+            this.SetDefaultValues(modelBuilder); 
+            this.SetDecimalPrecision(modelBuilder); 
 
             //seed the required tables            
             this.SeedCouncilType(modelBuilder);
@@ -30,6 +26,7 @@ namespace MISAPI.DataModel.DataAccess
         }
         private void SetIndexes(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ProposedCouncil>().HasIndex(p => p.TransctionId).IsUnique();
 
             modelBuilder.Entity<ConsecrationArticle>().HasIndex(p => p.ArticleId).IsUnique();
 
@@ -58,11 +55,22 @@ namespace MISAPI.DataModel.DataAccess
                    .Property(x => x.RateToUSD)
                    .HasPrecision(18, 2);
 
+        }
+
+        private void SetDecimalPrecision(ModelBuilder modelBuilder)
+        {
+
             modelBuilder.Entity<Article>()
                    .Property(x => x.Price)
                    .HasPrecision(18, 2);
 
+            modelBuilder.Entity<ProposedCouncil>()
+                   .Property(x => x.ApplicationFeed)
+                   .HasPrecision(18, 2);
+
         }
+
+        public DbSet<ProposedCouncil> ProposedCouncils { get; set; }
         public DbSet<ConsecrationRequirement> ConsecrationRequirements { get; set; }
         public DbSet<ConsecrationArticle> ConsecrationArticles { get; set; }
         public DbSet<Ritual> Rituals { get; set; }
@@ -74,6 +82,8 @@ namespace MISAPI.DataModel.DataAccess
         public DbSet<Operation> Operations { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<CouncilType> CouncilTypes { get; set; }
         public DbSet<Council> Councils { get; set; }
         public DbSet<MenuOperation> MenuOperations { get; set; }
 
@@ -112,8 +122,11 @@ namespace MISAPI.DataModel.DataAccess
 
             councilList.AddRange(new List<CouncilType>
             {
-                 new CouncilType {Id = 1,  Name = "COUNCIL",   Description = "Councils of the order" },
-                 new CouncilType {Id = 2,  Name = "COURT",   Description = "Courts of the order" },
+                 new CouncilType {Id = 1,  Name = "JR COUNCIL/COURT",   Description = "The Junior order", CreatedOn = DateTime.Now },
+                 new CouncilType {Id = 2,  Name = "ADULT COUNCIL",   Description = "The adult councils and courts", CreatedOn = DateTime.Now },
+                 new CouncilType {Id = 3,  Name = "REGIONAL COUNCIL",   Description = "The regional councils and courts", CreatedOn = DateTime.Now },
+                 new CouncilType {Id = 4,  Name = "STATE COUNCIL",   Description = "The state councils and courts", CreatedOn = DateTime.Now},
+                 new CouncilType {Id = 5,  Name = "SUPREME COUNCIL",   Description = "The supreme council and grand court", CreatedOn = DateTime.Now},
 
              });
 
@@ -139,9 +152,10 @@ namespace MISAPI.DataModel.DataAccess
             var council = new Council
             {
                 Id = 1,
-                No = 1,
-                CouncilTypeId = 1,
+                Name = "Council #1",
+                IsCouncil = true,
                 CountryId = 1,
+                CouncilTypeId = 1,
                 Address = "SecondI, Ghana",
                 ConsecreatedOn = Convert.ToDateTime("November 18, 1926"),
                 CreatedOn = DateTime.Now

@@ -1,13 +1,9 @@
-﻿using MISAPI.DataModel.Models.Councils;
-using MISAPI.DataModel.Models.Roles;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace MISAPI.DataModel.Models.Accounts
+namespace MISAPI.DataModel.Models
 {
     public class Account
     {

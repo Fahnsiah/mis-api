@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace MISAPI.DataModel.Models.Councils
+namespace MISAPI.DataModel.Models
 {
     public class Country
     {

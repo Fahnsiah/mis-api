@@ -1,10 +1,6 @@
 using AutoMapper;
-using MISAPI.DataModel.Models.Accounts;
-using MISAPI.DataModel.Models.Roles;
-using MISAPI.DataModel.Models.Settings;
-using MISAPI.DataModel.ViewModels.Accounts;
-using MISAPI.DataModel.ViewModels.RolePermissions;
-using MISAPI.DataModel.ViewModels.Settings;
+using MISAPI.DataModel.Models;
+using MISAPI.DataModel.ViewModels;
 
 namespace MISAPI.DAL.Helpers
 {
@@ -31,7 +27,13 @@ namespace MISAPI.DAL.Helpers
 
                         return true;
                     }
-                )); 
+                ));
+
+            CreateMap<CouncilTypeRequest, CouncilType>();
+            CreateMap<CouncilType, CouncilTypeResponse>();
+
+            CreateMap<CouncilRequest, Council>();
+            CreateMap<Council, CouncilResponse>();
 
             CreateMap<ConsecrationRequirementRequest, ConsecrationRequirement>();
             CreateMap<ConsecrationRequirement, ConsecrationRequirementResponse>();

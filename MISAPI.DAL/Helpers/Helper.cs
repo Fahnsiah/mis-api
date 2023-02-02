@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using MISAPI.DAL.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MISAPI.DAL.Helpers
 {

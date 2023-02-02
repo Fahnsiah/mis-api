@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MISAPI.DAL.Helpers
+﻿namespace MISAPI.DAL.Helpers
 {
     public class AppSettings
     {

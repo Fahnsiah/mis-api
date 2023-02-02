@@ -3,12 +3,11 @@ using Microsoft.Extensions.Options;
 using MISAPI.DAL.Helpers;
 using MISAPI.DAL.Interfaces;
 using MISAPI.DataModel.DataAccess;
-using MISAPI.DataModel.Models.Settings;
-using MISAPI.DataModel.ViewModels.Settings;
+using MISAPI.DataModel.Models;
+using MISAPI.DataModel.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace MISAPI.DAL.Services
 {

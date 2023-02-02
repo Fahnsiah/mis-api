@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MISAPI.DAL.Interfaces;
-using MISAPI.DataModel.ViewModels.RolePermissions;
-using System;
+using MISAPI.DataModel.ViewModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,47 +11,49 @@ namespace MIS_API.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class RoleController : ControllerBase
+    public class CouncilController : ControllerBase
     {
-        private readonly IRoleInterface _roleService;
+        private readonly ICouncilInterface _councilService;
+
         private readonly IMapper _mapper;
 
-        public RoleController(
-            IRoleInterface roleService,
+        public CouncilController(
+            ICouncilInterface councilService,
             IMapper mapper)
         {
-            this._roleService = roleService;
+            _councilService = councilService;
             _mapper = mapper;
         }
+
         // GET: api/<TransactionTypeController>
         [HttpGet]
-        public ActionResult<IEnumerable<RoleResponse>> Get()
+        public ActionResult<IEnumerable<CouncilResponse>> Get()
         {
-            var data = _roleService.GetAll();
+            var data = _councilService.GetAll();
             return Ok(data);
         }
 
         // GET api/<TransactionTypeController>/5
         [HttpGet("{id}")]
-        public ActionResult<RoleResponse> Get(int id)
+        public ActionResult<CouncilResponse> Get(int id)
         {
-            var data = _roleService.GetById(id);
+            var data = _councilService.GetById(id);
             return Ok(data);
         }
 
         // POST api/<TransactionTypeController>
         [HttpPost]
-        public ActionResult<RoleResponse> Post([FromBody] RoleRequest model)
+        public ActionResult<CouncilResponse> Post([FromBody] CouncilRequest model)
         {
-            var data = _roleService.Create(model);            
+            var data = _councilService.Create(model);
             return Ok(data);
         }
 
         // PUT api/<TransactionTypeController>/5
         [HttpPut("{id}")]
-        public ActionResult<RoleResponse> Put(int id, [FromBody] RoleRequest model)
+        public ActionResult<CouncilResponse> Put(int id, [FromBody] CouncilRequest model)
         {
-            var data = _roleService.Update(id, model);
+            var data = _councilService.Update(id, model);
             return Ok(data);
         }
 
@@ -62,8 +61,9 @@ namespace MIS_API.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _roleService.Delete(id);
+            _councilService.Delete(id);
             return Ok(new { message = "Record deleted successfully" });
-        }
+        }    
+    
     }
 }

@@ -1,5 +1,5 @@
 ﻿
-namespace MISAPI.DataModel.ViewModels.RolePermissions
+namespace MISAPI.DataModel.ViewModels
 {
     public class RolePermissionResponse: BaseViewModel
     {

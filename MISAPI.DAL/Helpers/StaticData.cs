@@ -1,7 +1,6 @@
-﻿using MISAPI.DataModel.Models.Roles;
+﻿using MISAPI.DataModel.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MISAPI.DAL.Helpers
 {
@@ -17,7 +16,7 @@ namespace MISAPI.DAL.Helpers
                 new Menu {Id = "Dashboard",  Name = "Dashboard", UserLogId = 1, CreatedOn = DateTime.Now},
                 new Menu {Id ="AdminTasks",  Name = "Admin Tasks", UserLogId = 1, CreatedOn = DateTime.Now},
                 new Menu {Id ="Settings",  Name = "Settings", UserLogId = 1, CreatedOn = DateTime.Now},
-                //new Menu {Id ="Consecreations",  Name = "Consecretions", UserLogId = 1, CreatedOn = DateTime.Now},
+                new Menu {Id ="Consecreations",  Name = "Consecretions", UserLogId = 1, CreatedOn = DateTime.Now},
                 //new Menu {Id = "JuniorCouncils",  Name = "Junior Councils/Couts", UserLogId = 1, CreatedOn = DateTime.Now},
                 //new Menu {Id = "AdultCouncils",  Name = "Adult Councils", UserLogId = 1, CreatedOn = DateTime.Now},
                 //new Menu {Id = "RegionalCouncils",  Name = "Regional Councils", UserLogId = 1, CreatedOn = DateTime.Now},
@@ -38,8 +37,9 @@ namespace MISAPI.DAL.Helpers
 
             subMenu.AddRange(new List<SubMenu>
             {
+                new SubMenu {Id="AdminTasksUpdateSettingss" , MenuId ="AdminTasks",  Name = "Update Settings", UserLogId = 1, CreatedOn = DateTime.Now},
                 new SubMenu {Id="AdminTasksUsers" , MenuId ="AdminTasks",  Name = "Admin Users", UserLogId = 1, CreatedOn = DateTime.Now},
-                new SubMenu {Id="AdminTasksRoles" , MenuId ="AdminTasks",  Name = "Admin Roles", UserLogId = 1, CreatedOn = DateTime.Now},
+                new SubMenu {Id="AdminTasksRoles" , MenuId ="AdminTasks",  Name = "Admin Roles", UserLogId = 1, CreatedOn = DateTime.Now},                
 
                 new SubMenu {Id="SettingsArticles" , MenuId ="Settings",  Name = "Setting Articles", UserLogId = 1, CreatedOn = DateTime.Now},
                 new SubMenu {Id="SettingsCurrencies" , MenuId ="Settings",  Name = "Setting Currencies", UserLogId = 1, CreatedOn = DateTime.Now},
@@ -47,10 +47,10 @@ namespace MISAPI.DAL.Helpers
                 new SubMenu {Id="SettingsConsecrationArticles" , MenuId ="Settings",  Name = "Setting Consecration Articles", UserLogId = 1, CreatedOn = DateTime.Now},
                 new SubMenu {Id="SettingsConsecrationRequirements" , MenuId ="Settings",  Name = "Setting Consecration Requirements", UserLogId = 1, CreatedOn = DateTime.Now},
 
-                //new SubMenu {Id="ConsecreationsJuniors", MenuId ="Consecreations",  Name = "Junior Council/Court Consecreation", UserLogId = 1, CreatedOn = DateTime.Now},
-                //new SubMenu {Id="ConsecreationsAdults", MenuId ="Consecreations",  Name = "Adult Council/Court Consecreation", UserLogId = 1, CreatedOn = DateTime.Now},
-                //new SubMenu {Id="ConsecreationsRegions", MenuId ="Consecreations",  Name = "Region Council/Court Consecreation", UserLogId = 1, CreatedOn = DateTime.Now},
-                //new SubMenu {Id="ConsecreationsStates", MenuId ="Consecreations",  Name = "State Council/Court Consecreation", UserLogId = 1, CreatedOn = DateTime.Now},
+                new SubMenu {Id="ConsecreationsJuniors", MenuId ="Consecreations",  Name = "Junior Council/Court Consecreation", UserLogId = 1, CreatedOn = DateTime.Now},
+                new SubMenu {Id="ConsecreationsAdults", MenuId ="Consecreations",  Name = "Adult Council/Court Consecreation", UserLogId = 1, CreatedOn = DateTime.Now},
+                new SubMenu {Id="ConsecreationsRegions", MenuId ="Consecreations",  Name = "Region Council/Court Consecreation", UserLogId = 1, CreatedOn = DateTime.Now},
+                new SubMenu {Id="ConsecreationsStates", MenuId ="Consecreations",  Name = "State Council/Court Consecreation", UserLogId = 1, CreatedOn = DateTime.Now},
 
                 //new SubMenu {Id="ApplicationsJuniors", MenuId = "Applications",  Name = "Junior Applicants", UserLogId = 1, CreatedOn = DateTime.Now},
                 //new SubMenu {Id="ApplicationsAdults", MenuId = "Applications",  Name = "Adult Applicants", UserLogId = 1, CreatedOn = DateTime.Now},
@@ -117,9 +117,9 @@ namespace MISAPI.DAL.Helpers
                     new MenuOperation {MenuId ="Settings",  OperationId = "Edit", UserLogId = 1, CreatedOn = DateTime.Now},
                     new MenuOperation {MenuId ="Settings",  OperationId = "Delete", UserLogId = 1, CreatedOn = DateTime.Now},
 
-                    //new MenuOperation {MenuId ="Consecreations",  OperationId = "Create", UserLogId = 1, CreatedOn = DateTime.Now},
-                    //new MenuOperation {MenuId ="Consecreations",  OperationId = "Edit", UserLogId = 1, CreatedOn = DateTime.Now},
-                    //new MenuOperation {MenuId ="Consecreations",  OperationId = "Delete", UserLogId = 1, CreatedOn = DateTime.Now},
+                    new MenuOperation {MenuId ="Consecreations",  OperationId = "Create", UserLogId = 1, CreatedOn = DateTime.Now},
+                    new MenuOperation {MenuId ="Consecreations",  OperationId = "Edit", UserLogId = 1, CreatedOn = DateTime.Now},
+                    new MenuOperation {MenuId ="Consecreations",  OperationId = "Delete", UserLogId = 1, CreatedOn = DateTime.Now},
 
                     //new MenuOperation {MenuId ="Applications",  OperationId = "Create", UserLogId = 1, CreatedOn = DateTime.Now},
                     //new MenuOperation {MenuId ="Applications",  OperationId = "Edit", UserLogId = 1, CreatedOn = DateTime.Now},

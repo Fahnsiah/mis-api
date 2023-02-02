@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MISAPI.DAL.Interfaces;
-using MISAPI.DataModel.ViewModels.RolePermissions;
-using MISAPI.DataModel.ViewModels.Settings;
-using System;
+using MISAPI.DataModel.ViewModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

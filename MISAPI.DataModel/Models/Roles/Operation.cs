@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace MISAPI.DataModel.Models.Roles
+namespace MISAPI.DataModel.Models
 {
     public class Operation: BaseModel
     {

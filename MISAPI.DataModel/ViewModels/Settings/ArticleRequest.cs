@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
-namespace MISAPI.DataModel.ViewModels.Settings
+namespace MISAPI.DataModel.ViewModels
 {
     public class ArticleRequest
     {

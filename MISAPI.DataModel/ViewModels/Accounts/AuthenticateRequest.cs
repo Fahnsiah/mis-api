@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MISAPI.DataModel.ViewModels.Accounts
+namespace MISAPI.DataModel.ViewModels
 {
     public class AuthenticateRequest
     {

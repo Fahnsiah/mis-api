@@ -1,7 +1,4 @@
-
-using System;
-
-namespace MISAPI.DataModel.ViewModels.Accounts
+namespace MISAPI.DataModel.ViewModels
 {
     public class AccountResponse: BaseViewModel
     {

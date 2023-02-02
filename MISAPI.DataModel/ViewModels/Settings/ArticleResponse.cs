@@ -1,9 +1,6 @@
-﻿using MISAPI.DataModel.Models.Settings;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
-namespace MISAPI.DataModel.ViewModels.Settings
+namespace MISAPI.DataModel.ViewModels
 {
     public class ArticleResponse: BaseViewModel
     {

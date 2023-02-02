@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
-namespace MISAPI.DataModel.Models.Councils
+namespace MISAPI.DataModel.Models
 {
     public class CouncilType
     {
@@ -13,6 +12,12 @@ namespace MISAPI.DataModel.Models.Councils
         public string Name { get; set; }
         [MaxLength(250)]
         public string Description { get; set; }
+        
+        public long UserLogId { get; set; }
+        [Required]
+        public DateTime CreatedOn { get; set; }
+        public long? UpdateLogId { get; set; }
+        public DateTime? UpdatedOn { get; set; }
 
         public virtual IEnumerable<Council> Councils { get; set; }
     }

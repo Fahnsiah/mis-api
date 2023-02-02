@@ -1,9 +1,5 @@
-﻿
-using MISAPI.DataModel.ViewModels.RolePermissions;
-using System;
+﻿using MISAPI.DataModel.ViewModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MISAPI.DAL.Interfaces
 {

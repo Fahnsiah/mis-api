@@ -1,14 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MISAPI.DataModel.Models.Accounts;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace MISAPI.DataModel.Models.Roles
+namespace MISAPI.DataModel.Models
 {
     public class Role : BaseModel
     {

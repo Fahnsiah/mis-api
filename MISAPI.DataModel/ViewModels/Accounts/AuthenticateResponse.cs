@@ -1,9 +1,8 @@
-using MISAPI.DataModel.ViewModels.RolePermissions;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace MISAPI.DataModel.ViewModels.Accounts
+namespace MISAPI.DataModel.ViewModels
 {
     public class AuthenticateResponse : BaseViewModel
     {
